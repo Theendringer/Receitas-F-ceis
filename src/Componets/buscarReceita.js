@@ -36,8 +36,10 @@ function BuscarReceitas() {
   };
 
   return (
+  <>
+    <Navbar />
     <div className="container">
-      <Navbar />
+      
       <h1>Buscar Receitas</h1>
       <InputGroup className="mb-3">
         <Form.Control
@@ -89,6 +91,7 @@ function BuscarReceitas() {
         )}
       </div>
     </div>
+          </>
   );
 }
 
