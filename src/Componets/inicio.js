@@ -12,11 +12,11 @@ function inicio() {
         <>
             <Navbar />
             <div className="container">
-            <audio controls>
-        <source src="siteInicio.mp3" type="audio/mpeg" />
-        Seu navegador não suporta o elemento de áudio.
-      </audio>
                 <h1>Receitas Fáceis</h1>
+                    <audio controls>
+                    <source src="siteInicio.mp3" type="audio/mpeg" />
+                            Seu navegador não suporta o elemento de áudio.
+                      </audio>
                 <h4>Bem-vindo ao nosso espaço culinário inclusivo! Aqui, nossas receitas são feitas para todos, com instruções detalhadas e descrições táteis dos passos. Queremos tornar a cozinha acessível, oferecendo alternativas e dicas úteis. Junte-se a nós nesta jornada deliciosa e inclusiva!</h4>
             
 
