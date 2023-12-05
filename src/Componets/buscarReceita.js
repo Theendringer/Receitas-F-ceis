@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Navbar from './navbar';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -29,17 +29,46 @@ function buscarReceitasPorTitulo(tituloBuscado) {
 function BuscarReceitas() {
   const [resultadoBusca, setResultadoBusca] = useState([]);
   const [tituloBuscado, setTituloBuscado] = useState('');
+  const [textoReconhecido, setTextoReconhecido] = useState('');
+  const recognition = useRef(null);
 
   const handleBusca = () => {
     const resultado = buscarReceitasPorTitulo(tituloBuscado);
     setResultadoBusca(resultado);
   };
 
+  const handleVoiceSearch = () => {
+    if (!('webkitSpeechRecognition' in window)) {
+      alert('Seu navegador não suporta a API de reconhecimento de voz.');
+      return;
+    }
+
+    recognition.current = new window.webkitSpeechRecognition();
+    recognition.current.continuous = false;
+    recognition.current.interimResults = false;
+    recognition.current.lang = 'pt-BR';
+
+    recognition.current.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+      setTextoReconhecido(transcript);
+      setTituloBuscado(transcript);
+      handleBusca(transcript); // Realiza a busca ao reconhecer o texto
+    };
+
+    recognition.current.onerror = (event) => {
+      console.error('Erro no reconhecimento de voz:', event.error);
+    };
+
+    recognition.current.onend = () => {
+      recognition.current.stop();
+    };
+
+    recognition.current.start();
+  };
+
   return (
-  <>
-    <Navbar />
     <div className="container">
-      
+      <Navbar />
       <h1>Buscar Receitas</h1>
       <InputGroup className="mb-3">
         <Form.Control
@@ -52,8 +81,11 @@ function BuscarReceitas() {
         <Button variant="success" id="button-addon2" onClick={handleBusca}>
           Buscar
         </Button>
+        <Button variant="primary" onClick={handleVoiceSearch}>
+          Pesquisa por Voz
+        </Button>
       </InputGroup>
-
+      
       {/* Exibir resultados da busca aqui */}
       <div className="card-container">
         {resultadoBusca.length > 0 ? (
@@ -63,7 +95,7 @@ function BuscarReceitas() {
                 variant="top"
                 src={receita.imagem}
                 alt="Imagem da Receita"
-                 style={{ maxWidth: 'auto', height: 'auto' }}
+                style={{ maxWidth: 'auto', height: 'auto' }}
               />
               <Card.Body>
                 <Card.Title>{receita.titulo}</Card.Title>
@@ -81,7 +113,6 @@ function BuscarReceitas() {
                     Seu navegador não suporta o elemento de áudio.
                   </audio>
                   <h5>Modo de Preparo: {receita.modoPreparo}</h5>
-                  {/* Adicione outras informações da receita aqui */}
                 </Card.Text>
               </Card.Body>
             </Card>
@@ -91,7 +122,6 @@ function BuscarReceitas() {
         )}
       </div>
     </div>
-          </>
   );
 }
 
