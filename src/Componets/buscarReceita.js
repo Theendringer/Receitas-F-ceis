@@ -63,7 +63,7 @@ function BuscarReceitas() {
                 variant="top"
                 src={receita.imagem}
                 alt="Imagem da Receita"
-                style={{ maxWidth: '50%', height: 'auto' }}
+                 style={{ maxWidth: 'auto', height: 'auto' }}
               />
               <Card.Body>
                 <Card.Title>{receita.titulo}</Card.Title>
