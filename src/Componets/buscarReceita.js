@@ -58,7 +58,7 @@ function BuscarReceitas() {
       <div className="card-container">
         {resultadoBusca.length > 0 ? (
           resultadoBusca.map((receita, index) => (
-            <Card key={index} style={{ width: '58rem', marginBottom: '60px' }}>
+            <Card key={index} style={{ width: 'auto', marginBottom: 'auto' }}>
               <Card.Img
                 variant="top"
                 src={receita.imagem}
